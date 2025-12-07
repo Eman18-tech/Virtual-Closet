@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Style Assistant - Prototype UI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Global Reset and Typography */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f7f7f7;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header and Navigation */
+        .header {
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #5d4a67;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #555;
+            margin-left: 25px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #8c78a0;
+        }
+
+        /* Main Dashboard Layout */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            padding: 30px 0;
+        }
+
+        @media (min-width: 900px) {
+            .dashboard {
+                grid-template-columns: 2fr 3fr;
+            }
+        }
+
+        /* Card Styles */
+        .card {
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .card h2 {
+            margin-top: 0;
+            color: #5d4a67;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* AI Outfit Suggestion Section */
+        .ai-suggestion {
+            text-align: center;
+        }
+
+        .outfit-display {
+            background-color: #f1eef3;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            min-height: 350px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            text-align: center;
+        }
+
+        .outfit-display p {
+            font-style: italic;
+            color: #777;
+        }
+
+        .outfit-buttons button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+
+        .outfit-buttons button:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-accept {
+            background-color: #4CAF50; /* Green */
+            color: white;
+        }
+
+        .btn-reject {
+            background-color: #f44336; /* Red */
+            color: white;
+        }
+        
+        /* My Closet Section */
+        .closet-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .closet-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 15px;
+        }
+
+        .item-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            transition: box-shadow 0.3s;
+        }
+
+        .item-card:hover {
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* --- MODIFICATION 1: Styling the image container --- */
+        .item-card-image {
+            width: 100%;
+            height: 100px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            overflow: hidden; /* Ensures the image respects the rounded corners */
+        }
+
+        /* --- MODIFICATION 2: Styling the actual image element --- */
+        .item-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Scales the image to cover the area without stretching */
+            display: block;
+        }
+        /* --- END OF MODIFICATIONS IN CSS --- */
+
+        .item-card p {
+            font-size: 0.9em;
+            font-weight: 500;
+            color: #5d4a67;
+        }
+
+        .btn-add-item {
+            background-color: #f992e4;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+
+        .btn-add-item:hover {
+            background-color: #e4a5cf;
+        }
+
+        /* Placeholder styles for icons/graphics */
+        .icon {
+            font-size: 3em;
+            color: #8c78a0;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="nav container">
+            <div class="logo">Style.AI</div>
+            <nav class="nav-links">
+                <a href="#">Dashboard</a>
+                <a href="#">My Closet</a>
+                <a href="#">Marketplace</a>
+                <a href="#">Profile</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container dashboard">
+        <section class="ai-suggestion card">
+            <h2>AI Outfit Suggestion ✨</h2>
+            <div class="outfit-display">
+                
+
+[Image of suggested Outfit]
+
+                <span class="icon">👗</span>
+                <p>The AI Engine suggests a stylish outfit for today based on trends and your item history.</p>
+                <p>Outfit: Blue Denim Jacket + Black Tee + Khaki Chinos</p>
+                <button>Customize</button>
+            </div>
+            <div class="outfit-buttons">
+                <button class="btn-accept">Accept</button>
+                <button class="btn-reject">Reject</button>
+            </div>
+        </section>
+
+        <section class="my-closet card">
+            <div class="closet-header">
+                <h2>My Closet Inventory 🛍️</h2>
+                <button class="btn-add-item">+ Add New Item</button>
+            </div>
+            
+            <div class="closet-grid">
+                <div class="item-card">
+                    <div class="item-card-image">
+                        <img src="T-shirt.jpeg" alt="Red T-shirt">
+                    </div>
+                    <p>Red Tee</p>
+                </div>
+                <div class="item-card">
+                    <div class="item-card-image">
+                        <img src="jeans.jpeg" alt="Blue Denim Jeans">
+                    </div>
+                    <p>Blue Denim</p>
+                </div>
+                <div class="item-card">
+                    <div class="item-card-image">
+                        <img src="shoes.jpeg" alt="White Sneakers">
+                    </div>
+                    <p>White Sneakers</p>
+                </div>
+                <div class="item-card">
+                    <div class="item-card-image">
+                        <img src="black blazer.jpeg" alt="Black Blazer">
+                    </div>
+                    <p>Black Blazer</p>
+                </div>
+                <div class="item-card">
+                    <div class="item-card-image">
+                        <img src="summer dress.jpeg" alt="Floral Summer Dress">
+                    </div>
+                    <p>Summer Dress</p>
+                </div>
+                <div class="item-card">
+                    <div class="item-card-image">
+                        <img src="watch.jpeg" alt="Silver Wrist Watch">
+                    </div>
+                    <p>Silver Watch</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+</body>
+</html>
